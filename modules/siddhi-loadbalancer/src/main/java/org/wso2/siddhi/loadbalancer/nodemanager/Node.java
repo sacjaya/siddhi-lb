@@ -1,18 +1,16 @@
 package org.wso2.siddhi.loadbalancer.nodemanager;
 
+import org.wso2.carbon.databridge.agent.thrift.exception.AgentException;
 import org.wso2.carbon.databridge.commons.Event;
+import org.wso2.carbon.databridge.commons.exception.DifferentStreamDefinitionAlreadyDefinedException;
+import org.wso2.carbon.databridge.commons.exception.MalformedStreamDefinitionException;
+import org.wso2.carbon.databridge.commons.exception.StreamDefinitionException;
 import org.wso2.siddhi.loadbalancer.eventpublisher.EventPublisher;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: isuru
- * Date: 4/29/13
- * Time: 9:03 AM
- * To change this template use File | Settings | File Templates.
- */
+
 public class Node {
 
     private  String hostname;
@@ -49,9 +47,19 @@ public class Node {
 
         if (eventList.size()>=1000){
             if(this.streamID != null){
-            EventPublisher.setSTREAM_ID(this.streamID);
+
             }
-            EventPublisher.publishEvents(hostname,port,eventList);
+            try {
+                EventPublisher.publishEvents(hostname,port,eventList);
+            } catch (DifferentStreamDefinitionAlreadyDefinedException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (MalformedStreamDefinitionException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (AgentException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (StreamDefinitionException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
             eventList.clear();
         }
 
