@@ -24,7 +24,7 @@ import org.wso2.carbon.cep.stub.admin.internal.xsd.BucketDTO;
 
 
 
-public class RemoteBucketDeployer {
+public class RemoteBucketDeployer___Mine {
 
     private String adminCookie;
     private String authenticationAdminURL;
